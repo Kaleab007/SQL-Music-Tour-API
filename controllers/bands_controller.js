@@ -21,13 +21,13 @@ bands.get('/:name', async (req,res) => {
         const foundBands = await Band.findOne ({
         where: { name: req.params.name},
         include: [{
-            model:MeetGreet,
+            model: MeetGreet,
             as:"meet_greets",
             attributes: { exclude:["band_id", "event_id"],
             include: {
-                model: Event,
+                model: Event ,
                 as: "event",
-                where: { name: {[Op.like]: `%${req.query.event ? req.query.event : ''}%`}}
+                where: { name: {[Op.like]: `%${req.query.event ? req.query.event : ''}%`}
             }
         },
         {
@@ -37,14 +37,14 @@ bands.get('/:name', async (req,res) => {
             include: {
                 model: Event,
                 as: "event",
-                where: { name: {[Op.like]: `%${req.query.event ? req.query.event : ''}%`}}
+                where: { name: {[Op.like]: `%${req.query.event ? req.query.event : ''}%`}
 
         }
-        } 
-        ],
+        }   
+        },
         order: [
-            [{model: MeetGreet, as:"meet_greets"},{model: Event, as:"event"}, 'data', 'DESC'],
-            [{model: SetTime, as:"set_times"},{model:Event, as:"event"}, 'data', 'DESC']
+            [{ model: MeetGreet, as:"meet_greets"},{model: Event, as:"event"}, 'data', 'DESC'],
+            [{ model: SetTime, as:"set_times"},{model:Event, as:"event"}, 'data', 'DESC']
         
         
         ]

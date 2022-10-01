@@ -30,13 +30,44 @@ try {
 })
 events.post('/', async (req,res) => {
     try{
-        const newEvent = await Event.update(req.body)
+        const newEvent = await Event.create(req.body)
         res.status(200).json({
             message: 'Successfully inserted a new event',
             data: newEvent
 
         })
     } catch (err) {
-        res.status(500)
+        res.status(500).json(err)
     }
 })
+events.put('/:id', async (req,res) => {
+    try {
+        const updatedEvents = await Event.updated(req.body, {
+            where: {
+                event_id:req.params.id
+            }
+        })
+        res.status(200).json({
+            message: `Successfully updated ${updatedEvents} event(s)`
+        })
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
+
+events.delete('/:id', async (res,res)=> {
+    try {
+        const deleteEvents = await Event.destroy({
+            where :{ 
+                event_id: req.params.id
+            }
+        })
+        res.status(200).json({
+            message: `Successfully deleted ${deleteEvents} event(s)`
+        })
+    } 
+    catch(err) {
+        res.status(500).json(err)
+    }
+})
+module.exports = events
